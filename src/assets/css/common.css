@@ -1,0 +1,9 @@
+body {
+  font-size: 14px;
+}
+
+:root {
+  --primary-color: #ff9854;
+  --van-primary-color: var(--primary-color);
+  --van-nav-bar-title-text-color: var(--primary-color) !important;
+}

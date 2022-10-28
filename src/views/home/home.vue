@@ -1,56 +1,68 @@
 <script setup>
+  import SearchBox from './cpns/search-box.vue'
+  import CategoriesBox from "./cpns/categories-box.vue";
+  import HouseList from './cpns/house-list.vue';
+  import SearchBar from './cpns/search-bar.vue';
+
+  import { storeToRefs } from 'pinia';
+  import { watch, computed } from 'vue'
+  import useHomeStore from '@/stores/modules/home'
+  import useScroll from '@/hooks/useScroll'
+
+  const homeStore = useHomeStore()
+
+  // 发送请求
+  homeStore.fetchHotSuggests()
+  homeStore.fetchCategories()
+  homeStore.fetchHouseList()
+
+  // 获取商品列表
+  const { houseList } = storeToRefs(homeStore)
+
+  // 页面滚动
+  const { isReachBottom, scrollTop } = useScroll()
+  // 1. 加载更多
+  watch(isReachBottom, (value) => {
+    if (value) {
+      homeStore.fetchHouseList().then(() => {
+        isReachBottom.value = false
+      })
+    }
+  })
+  // 2. 是否显示悬浮搜索栏
+  const isShowSearchBar = computed(() => scrollTop.value >= 350)
+  
+
 </script>
 
 <template>
   <div class="home">
+    <!-- 导航 -->
     <van-nav-bar title="旅途demo" />
+    <!-- 轮播图 -->
     <div class="banner">
       <img class="banner" src="@/assets/img/home/banner.webp" alt="">
     </div>
-    <div class="search-box">
-      <div class="item location">
-        <span class="position">杭州</span>
-        <div class="switch">
-          <span>我的位置</span>
-          <i class="position-icon"></i>
-        </div>
-      </div>
+    <div class="home-wrap">
+      <!-- 搜索 -->
+      <search-box />
+      <!-- 分类 -->
+      <categories-box />
+      <!-- 商品列表 -->
+      <house-list :data-list="houseList" />
     </div>
+    <search-bar v-show="isShowSearchBar" />
   </div>
 </template>
 
 <style lang="less" scoped>
-.home {
-  .banner {
-    width: 100%;
-  }
-  .search-box {
-    .item {
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      color: #999;
+  .home {
+    .banner {
+      width: 100%;
     }
-    .location {
-      height: 44px;
-      .position {
-        flex: 1;
-        color: #333;
-        font-size: 15px;
-      }
-      .switch {
-        width: 77px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .position-icon {
-          width: 18px;
-          height: 18px;
-          background: url("@/assets/img/home/icon_location.png") no-repeat center/18px;
-        }
-      }
+    .home-wrap {
+      background-image: linear-gradient(180deg, #fff, #eee);
     }
   }
-}
 
 </style>

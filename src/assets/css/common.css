@@ -1,9 +1,25 @@
 body {
   font-size: 14px;
+  font-family: "PingFangSC-Regular", "Helvetica Neue", "sans-serif";
 }
 
 :root {
   --primary-color: #ff9854;
+  --theme-linear-gradient: linear-gradient(90deg, #fa8c1d, #fcaf3f);
+  
   --van-primary-color: var(--primary-color);
   --van-nav-bar-title-text-color: var(--primary-color) !important;
+  --van-search-left-icon-color: var(--van-primary-color) !important;
+}
+
+/**
+ * 隐藏底部tabbar的方式二
+ */
+.top-page {
+  position: relative;
+  z-index: 9;
+  background-color: #fff;
+  height: 100vh;
+
+  overflow-y: auto;
 }

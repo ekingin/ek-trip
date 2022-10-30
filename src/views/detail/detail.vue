@@ -34,16 +34,18 @@
 
   // 滚动 
   const detailRef = ref()
-  const names = ref([])
-  const sectionsRef = ref([])
+  const sectionsRef = ref({})
+  const names = computed(() => Object.keys(sectionsRef.value))
   const { scrollTop } = useScroll(detailRef)
   const isShowTabControl = computed(() => scrollTop.value > 350)
   const getSectionRef = (value) => {
-    names.value.push(value.$el.getAttribute("name"))
-    sectionsRef.value.push(value.$el)
+    if(!value) return
+    const name = value.$el.getAttribute("name")
+    sectionsRef.value[name] = value.$el
   }
   const tabClick = (index) => {
-    let instance = sectionsRef.value[index].offsetTop
+    const key = names.value[index]
+    let instance = sectionsRef.value[key].offsetTop
     if (index !== 0) {
       instance = instance - 57
     }

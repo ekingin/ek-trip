@@ -93,7 +93,7 @@
 </script>
 
 <template>
-  <div class="search-box">
+  <div class="home-search-box">
     <!-- 地理位置 -->
     <div class="section location">
       <span class="city" @click="switchCity">{{ currentCity.cityName }}</span>
@@ -174,7 +174,7 @@
 </template>
 
 <style lang="less" scoped>
-  .search-box {
+  .home-search-box {
     .section {
       display: flex;
       align-items: center;

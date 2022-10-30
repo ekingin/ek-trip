@@ -1,32 +1,43 @@
 import _ from "lodash"
 import { ref, onActivated, onMounted, onUnmounted, onDeactivated } from "vue"
 
-export default function () {
+export default function (elRef) {
+  let el = window
+
   const isReachBottom = ref(false)
   const scrollTop = ref(0)
   const scrollHeight = ref(0)
   const clientHeight = ref(0)
 
   const scrollHandler = _.throttle(() => {
-    scrollTop.value = document.documentElement.scrollTop
-    scrollHeight.value = document.documentElement.scrollHeight
-    clientHeight.value = document.documentElement.clientHeight
+    if (el === window) {
+      scrollTop.value = document.documentElement.scrollTop
+      scrollHeight.value = document.documentElement.scrollHeight
+      clientHeight.value = document.documentElement.clientHeight
+    } else {
+      scrollTop.value = el.scrollTop
+      scrollHeight.value = el.scrollHeight
+      clientHeight.value = el.clientHeight
+    }
+    
     if (scrollTop.value + clientHeight.value >= scrollHeight.value) {
       isReachBottom.value = true
     }
   }, 100)
 
   onMounted(() => {
-    window.addEventListener("scroll", scrollHandler)
+    if(elRef) el = elRef.value
+    el.addEventListener("scroll", scrollHandler)
   })
   onActivated(() => {
-    window.addEventListener("scroll", scrollHandler)
+    if(elRef) el = elRef.value
+    el.addEventListener("scroll", scrollHandler)
   })
   onDeactivated(() => {
-    window.removeEventListener("scroll", scrollHandler)
+    el.removeEventListener("scroll", scrollHandler)
   })
   onUnmounted(() => {
-    window.removeEventListener("scroll", scrollHandler)
+    el.removeEventListener("scroll", scrollHandler)
   })
   
   return { isReachBottom, scrollTop, scrollHeight, clientHeight }

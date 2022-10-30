@@ -1,8 +1,8 @@
 <script setup>
-  import SearchBox from './cpns/search-box.vue'
-  import CategoriesBox from "./cpns/categories-box.vue";
-  import HouseList from './cpns/house-list.vue';
-  import SearchBar from './cpns/search-bar.vue';
+  import HomeSearchBox from './cpns/home-search-box.vue'
+  import HomeCategories from "./cpns/home-categories.vue";
+  import HomeHouseList from './cpns/home-house-list.vue';
+  import HomeSearchBar from './cpns/home-search-bar.vue';
 
   import { storeToRefs } from 'pinia';
   import { watch, computed } from 'vue'
@@ -14,7 +14,9 @@
   // 发送请求
   homeStore.fetchHotSuggests()
   homeStore.fetchCategories()
-  homeStore.fetchHouseList()
+  if (homeStore.houseList.length === 0) {
+    homeStore.fetchHouseList()
+  }
 
   // 获取商品列表
   const { houseList } = storeToRefs(homeStore)
@@ -45,13 +47,13 @@
     </div>
     <div class="home-wrap">
       <!-- 搜索 -->
-      <search-box />
+      <home-search-box />
       <!-- 分类 -->
-      <categories-box />
+      <home-categories />
       <!-- 商品列表 -->
-      <house-list :data-list="houseList" />
+      <home-house-list :data-list="houseList" />
     </div>
-    <search-bar v-show="isShowSearchBar" />
+    <home-search-bar v-show="isShowSearchBar" />
   </div>
 </template>
 

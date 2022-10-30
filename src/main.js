@@ -4,7 +4,7 @@ import router from './router'
 import pinia from './stores'
 
 import 'normalize.css'
-import './assets/css/index.css'
+import './assets/css/index.less'
 
 
 createApp(App).use(router).use(pinia).mount('#app')

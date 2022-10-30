@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  <div class="search-bar">
+  <div class="home-search-bar">
     <div class="search-inner">
       <div class="select-date">
         <div class="start-date">
@@ -27,7 +27,7 @@
 </template>
 
 <style lang="less" scoped>
-  .search-bar {
+  .home-search-bar {
     position: fixed;
     top: 0;
     left: 0;

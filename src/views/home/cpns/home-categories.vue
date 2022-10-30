@@ -18,7 +18,7 @@
 </script>
 
 <template>
-  <div class="categories-box">
+  <div class="home-categories">
     <template v-for="(item, index) in categories" :key="index">
       <div 
         class="category-item" 
@@ -33,7 +33,7 @@
 </template>
 
 <style lang="less" scoped>
-  .categories-box {
+  .home-categories {
     display: flex;
     align-items: center;
     overflow-x: scroll;

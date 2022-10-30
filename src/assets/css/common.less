@@ -23,3 +23,24 @@ body {
 
   overflow-y: auto;
 }
+
+.dot-hidden-txt {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.dot-hidden-txt-1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dot-hidden-txt-2 {
+  .dot-hidden-txt();
+  -webkit-line-clamp: 2;
+}
+.dot-hidden-txt-3 {
+  .dot-hidden-txt();
+  -webkit-line-clamp: 3;
+}
+

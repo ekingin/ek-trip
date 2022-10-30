@@ -26,10 +26,14 @@ const router = createRouter({
     {
       path: '/city',
       component: () => import('@/views/city/city.vue'),
-      meta: {
-        isHiddenTabbar: true
-      }
-    }
+      // meta: { // 隐藏底部tabbar的方式之一，在App.vue文件中判断该字段
+      //   isHiddenTabbar: true
+      // }
+    },
+    {
+      path: '/detail/:id',
+      component: () => import('@/views/detail/detail.vue')
+    },
   ]
 })
 

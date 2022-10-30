@@ -34,6 +34,7 @@
     right: 0;
     background-color: #fff;
     padding: 16px 16px 10px 16px;
+    z-index: 9;
     .search-inner {
       background-color: #f0f0f0;
       display: flex;
@@ -73,7 +74,7 @@
               border-bottom-color: rgba(0, 0, 0, 0);
             }
           }
-          }
+        }
       }
       .content {
         border-left: 1px solid #fff;

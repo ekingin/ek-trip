@@ -5,7 +5,7 @@
   import HomeSearchBar from './cpns/home-search-bar.vue';
 
   import { storeToRefs } from 'pinia';
-  import { watch, computed } from 'vue'
+  import { watch, computed, onActivated, ref } from 'vue'
   import useHomeStore from '@/stores/modules/home'
   import useScroll from '@/hooks/useScroll'
 
@@ -14,15 +14,14 @@
   // 发送请求
   homeStore.fetchHotSuggests()
   homeStore.fetchCategories()
-  if (homeStore.houseList.length === 0) {
-    homeStore.fetchHouseList()
-  }
+  homeStore.fetchHouseList()
 
   // 获取商品列表
   const { houseList } = storeToRefs(homeStore)
 
   // 页面滚动
-  const { isReachBottom, scrollTop } = useScroll()
+  const homeRef = ref()
+  const { isReachBottom, scrollTop } = useScroll(homeRef)
   // 1. 加载更多
   watch(isReachBottom, (value) => {
     if (value) {
@@ -33,12 +32,18 @@
   })
   // 2. 是否显示悬浮搜索栏
   const isShowSearchBar = computed(() => scrollTop.value >= 350)
+  // 3. 页面激活时，恢复上一次的scrollTop
+  onActivated(() => {
+    homeRef.value.scrollTo({
+      top: scrollTop.value
+    })
+  })
   
 
 </script>
 
 <template>
-  <div class="home">
+  <div class="home" ref="homeRef">
     <!-- 导航 -->
     <van-nav-bar title="旅途demo" />
     <!-- 轮播图 -->
@@ -59,6 +64,9 @@
 
 <style lang="less" scoped>
   .home {
+    height: 100vh;
+    overflow-y: auto;
+ 
     .banner {
       width: 100%;
     }

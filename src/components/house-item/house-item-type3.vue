@@ -49,7 +49,7 @@
       }
       .info {
         color: #333;
-        padding: 10px;
+        padding: 10px 10px 2px;
         display: flex;
         background-color: #fff;
         flex-direction: column;

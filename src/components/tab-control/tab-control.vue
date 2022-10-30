@@ -13,6 +13,13 @@
     currentIndex.value = index
     emit('tabClick', index)
   }
+  const setCurrentIndex = (index) => {
+    currentIndex.value = index
+  }
+
+  defineExpose({
+    setCurrentIndex
+  })
 </script>
 
 <template>

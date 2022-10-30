@@ -29,13 +29,13 @@ export default function (elRef) {
     if(elRef) el = elRef.value
     el.addEventListener("scroll", scrollHandler)
   })
-  onActivated(() => {
-    if(elRef) el = elRef.value
-    el.addEventListener("scroll", scrollHandler)
-  })
-  onDeactivated(() => {
-    el.removeEventListener("scroll", scrollHandler)
-  })
+  // onActivated(() => {
+  //   if(elRef) el = elRef.value
+  //   el.addEventListener("scroll", scrollHandler)
+  // })
+  // onDeactivated(() => {
+  //   el.removeEventListener("scroll", scrollHandler)
+  // })
   onUnmounted(() => {
     el.removeEventListener("scroll", scrollHandler)
   })

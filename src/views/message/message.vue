@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="message">
+  <div class="message top-page">
     message
   </div>
 </template>

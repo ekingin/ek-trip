@@ -11,14 +11,14 @@
 
   import { useRouter, useRoute } from 'vue-router'
   import { storeToRefs } from 'pinia';
-  import { computed, ref } from 'vue';
+  import { computed, ref, watch, onMounted } from 'vue';
   import useDetailStore from '@/stores/modules/detial'
   import useScroll from '@/hooks/useScroll'
 
   const router = useRouter()
   const route = useRoute()
   const detailStore = useDetailStore()
-
+  
   // 页面返回
   const onPageBack = () => {
     router.back()
@@ -31,29 +31,59 @@
   // 获取数据
   const { houseDetail } = storeToRefs(detailStore)
   const mainPart = computed(() => houseDetail.value.mainPart)
-
-  // 滚动 
+  
+  // 滚动相关的逻辑
+  // 1. 点击tab control滚动到对应的section
   const detailRef = ref()
   const sectionsRef = ref({})
-  const names = computed(() => Object.keys(sectionsRef.value))
   const { scrollTop } = useScroll(detailRef)
-  const isShowTabControl = computed(() => scrollTop.value > 350)
+  const isShowTabControl = computed(() => scrollTop.value > 307)
+  // 1.1 动态获取tab control的数组
+  const names = computed(() => Object.keys(sectionsRef.value))
+  // 1.2 获取每个section的根元素
   const getSectionRef = (value) => {
     if(!value) return
     const name = value.$el.getAttribute("name")
     sectionsRef.value[name] = value.$el
   }
+  // 1.3 tab点击滚动到对应的section
+  let isClick = false
+  let currentDistance = -1
   const tabClick = (index) => {
     const key = names.value[index]
-    let instance = sectionsRef.value[key].offsetTop
+    let distance = sectionsRef.value[key].offsetTop
     if (index !== 0) {
-      instance = instance - 57
+      distance = distance - 57
     }
+
+    isClick = true
+    currentDistance = distance
+    console.log("currentDistance", currentDistance)
+
     detailRef.value.scrollTo({
-      top: instance,
+      top: distance,
       behavior: 'smooth'
     })
   }
+  // 1.4 滚动到section时，显示对应的tab
+  const tabControlRef = ref()
+  watch(scrollTop, value => {
+    console.log("scrollTop", value)
+    if (value === currentDistance) {
+      isClick = false
+    }
+    if (isClick) return
+    const sectionsTop = Object.values(sectionsRef.value).map(el => el.offsetTop)
+
+    let index = sectionsTop.length - 1
+    for(let i = 0; i < sectionsTop.length; i++) {
+      if (sectionsTop[i] > value + 57) {
+        index = i - 1
+        break
+      }
+    }
+    tabControlRef.value?.setCurrentIndex(index)
+  })
 
 </script>
 

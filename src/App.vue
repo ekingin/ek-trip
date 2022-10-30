@@ -3,14 +3,15 @@
   import Loading from '@/components/loading/loading.vue'
   import { useRoute } from 'vue-router'
 
-  const route = useRoute()
 </script>
 
 <template>
   <div class="app">
-    <router-view/>
-    <!-- 隐藏底部tabbar的方式之一 -->
-    <!-- <tab-bar v-if="!route.meta.isHiddenTabbar"/> -->
+    <router-view v-slot="{ Component }">
+      <keep-alive include="home">
+        <component :is="Component"></component>
+      </keep-alive>
+    </router-view>
     <tab-bar />
     <loading />
   </div>

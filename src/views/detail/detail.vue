@@ -69,7 +69,7 @@
   const tabControlRef = ref()
   watch(scrollTop, value => {
     console.log("scrollTop", value)
-    if (value === currentDistance) {
+    if (Math.round(value) === currentDistance) {
       isClick = false
     }
     if (isClick) return
@@ -77,7 +77,7 @@
 
     let index = sectionsTop.length - 1
     for(let i = 0; i < sectionsTop.length; i++) {
-      if (sectionsTop[i] > value + 57) {
+      if (sectionsTop[i] > value) {
         index = i - 1
         break
       }
